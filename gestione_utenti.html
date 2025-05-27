@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Gestione Utenti{% endblock %}
+
+{% block content %}
+<h1>Gestione Utenti</h1>
+
+<div class="box">
+    <h2>Aggiungi Utente</h2>
+    <form method="post">
+        <input type="hidden" name="azione" value="aggiungi">
+        <input type="text" name="new_user" placeholder="Nome utente" required>
+        <input type="password" name="new_pwd" placeholder="Password" required>
+        <button type="submit">Aggiungi</button>
+    </form>
+</div>
+
+<div class="box">
+    <h2>Modifica Utente</h2>
+    <form method="post">
+        <input type="hidden" name="azione" value="modifica">
+        <select name="mod_user" required>
+            {% for user in users.keys() %}
+                <option value="{{ user }}">{{ user }}</option>
+            {% endfor %}
+        </select>
+        <input type="text" name="new_name" placeholder="Nuovo nome (facoltativo)">
+        <input type="password" name="new_pwd" placeholder="Nuova password (facoltativo)">
+        <button type="submit">Modifica</button>
+    </form>
+</div>
+
+<div class="box">
+    <h2>Rimuovi Utente</h2>
+    <form method="post">
+        <input type="hidden" name="azione" value="rimuovi">
+        <select name="remove_user" required>
+            {% for user in users.keys() %}
+                <option value="{{ user }}">{{ user }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Rimuovi</button>
+    </form>
+</div>
+
+<div class="box">
+    <h2>Elenco Utenti</h2>
+    <table>
+        <tr><th>Nome</th><th>Password</th></tr>
+        {% for user, info in users.items() %}
+            <tr><td>{{ user }}</td><td>{{ info.pwd }}</td></tr>
+        {% endfor %}
+    </table>
+</div>
+
+<a href="{{ url_for('home') }}">⬅️ Torna alla Home</a>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Magazzino{% endblock %}
+
+{% block content %}
+<h2>Magazzino</h2>
+
+<table class="magazzino-table">
+    <thead>
+        <tr>
+            <th>Codice</th>
+            <th>Descrizione</th>
+            <th>Quantità</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for articolo in magazzino %}
+        <tr>
+            <td>{{ articolo.codice }}</td>
+            <td>{{ articolo.nome }}</td>
+            <td>{{ articolo.quantita }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-xl font-bold mb-4 text-white">📋 Genera Distinte Materiale per Fornitore</h2>
+
+    <form method="POST" class="bg-gray-800 p-4 rounded-xl shadow">
+        <label for="commessa" class="text-white block mb-2">Seleziona Commessa:</label>
+        <select name="commessa" id="commessa" class="w-full p-2 rounded mb-4">
+            {% for c in commesse %}
+                <option value="{{ c }}">{{ c }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">📁 Genera File Excel</button>
+    </form>
+
+    {% if messaggio %}
+        <p class="mt-4 text-green-500 font-semibold">{{ messaggio }}</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Timbrature{% endblock %}
+{% block content %}
+<h1>🕒 Timbrature</h1>
+
+{% if user != 'admin' %}
+    <p>Hai timbrato <strong>{{ ore_lavorate[user] }}</strong> ore totali.</p>
+    <form method="post">
+        <button class="button" name="azione" value="entrata">Entrata</button>
+        <button class="button" name="azione" value="uscita">Uscita</button>
+    </form>
+    <div class="card">
+        <h2>Storico</h2>
+        <ul>
+            {% for r in timbrature[user] %}
+                <li>{{ r.data }} - {{ r.ora }} - {{ r.azione }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% else %}
+    <h2>Ore Lavorate per Operatore</h2>
+    <ul>
+        {% for op, ore in ore_lavorate.items() %}
+            <li><strong>{{ op }}</strong>: {{ ore }} ore</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Dettaglio Timbrature</h2>
+    {% for operatore, logs in timbrature.items() %}
+        {% if operatore != 'admin' %}
+            <div class="card">
+                <h3>{{ operatore }}</h3>
+                <ul>
+                    {% for r in logs %}
+                        <li>{{ r.data }} - {{ r.ora }} - {{ r.azione }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+<a class="button" href="{{ url_for('home') }}">⬅️ Torna alla Home</a>
+{% endblock %}

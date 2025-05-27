@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}GESTIONALE{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            background-color: #0f172a;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        header, footer {
+            background-color: #1e293b;
+        }
+
+        nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        nav a:hover {
+            background-color: #334155;
+            transform: scale(1.05);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        footer {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+
+<header class="p-4 shadow-md">
+    <div class="container flex justify-between items-center">
+        <h1 class="text-2xl font-bold">🔧 CI.M Costruzioni Metalliche</h1>
+        <nav class="flex gap-2 flex-wrap">
+            <a href="{{ url_for('home') }}">🏠 Home</a>
+            <a href="{{ url_for('visualizza_lavori') }}">📋 Lavori</a>
+            <a href="{{ url_for('magazzino_commesse') }}">📦 Magazzino</a>
+            <a href="{{ url_for('materiali_consumo') }}">🧰 Consumo</a>
+            <a href="{{ url_for('stato_commesse') }}">📈 Stato</a>
+            <a href="{{ url_for('assegna') }}">🛠️ Assegna</a>
+            <a href="{{ url_for('logout') }}">🚪 Logout</a>
+            <a href="{{ url_for('timbrature') }}">🕒 Timbrature</a>
+            <a href="{{ url_for('genera_distinta') }}">📋 Distinte Ordine</a>
+
+        </nav>
+    </div>
+</header>
+
+<main class="container py-6 px-4">
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="p-4 text-center">
+    &copy; 2025 CI.M Costruzioni Metalliche — Tutti i diritti riservati
+</footer>
+
+</body>
+</html>

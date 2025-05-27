@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Visualizza Lavori{% endblock %}
+
+{% block content %}
+<div class="p-6">
+    <h1 class="text-3xl font-bold text-white mb-6">📋 Visualizza Lavori per Commessa</h1>
+
+    {% if utente != 'admin' %}
+    <form method="POST" class="mb-6 flex items-center gap-3 bg-gray-800 p-4 rounded-xl shadow-lg">
+        <label for="barcode_input" class="text-white text-sm">Scansiona Codice:</label>
+        <input type="text" id="barcode_input" name="barcode_input" class="p-2 rounded bg-gray-700 text-white w-48" autofocus>
+        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-4 rounded-xl">✅ Preleva con Barcode</button>
+    </form>
+    {% endif %}
+
+    {% if dati_commesse %}
+        {% for commessa, righe in dati_commesse.items() %}
+        <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-6 mb-8" id="commessa_{{ loop.index }}">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl text-white font-semibold">Commessa: {{ commessa }}</h2>
+                <a href="{{ url_for('stampa_commessa', commessa=commessa) }}" target="_blank" class="text-white text-sm bg-blue-700 hover:bg-blue-800 px-4 py-1 rounded-xl">📤 Stampa PDF</a>
+            </div>
+
+            {% if utente == 'admin' %}
+            <label class="text-white text-sm">Assegna a:
+                <select class="bg-gray-800 text-white rounded p-1 ml-2">
+                    <option value="">-- Seleziona Operatore --</option>
+                    <option value="emanuele">Emanuele</option>
+                    <option value="marco">Marco</option>
+                    <option value="dario">Dario</option>
+                </select>
+            </label>
+            {% endif %}
+
+            <div class="overflow-x-auto mt-4">
+                <table class="w-full text-sm text-center text-white border border-gray-700 rounded-lg">
+                    <thead class="bg-gray-700 text-gray-300">
+                        <tr>
+                            <th>Disegno</th><th>Descrizione</th><th>Cliente</th><th>Quantità</th><th>Etichetta</th>
+                            {% if utente != 'admin' %}<th>Azione</th>{% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for r in righe %}
+                        <tr class="{% if r.quantita <= 3 %}bg-red-800{% else %}bg-gray-800{% endif %}">
+                            <td>{{ r.disegno }}</td>
+                            <td>{{ r.descrizione }}</td>
+                            <td>{{ r.cliente }}</td>
+                            <td>{{ r.quantita }}</td>
+                            <td><svg class="barcode" jsbarcode-format="CODE39" jsbarcode-value="{{ r.etichetta.strip('*') }}" jsbarcode-textmargin="0" jsbarcode-height="40"></svg></td>
+                            {% if utente != 'admin' %}
+                            <td>
+                                {% if r.quantita > 0 %}
+                                <form method="POST" action="{{ url_for('visualizza_lavori') }}#commessa_{{ loop.index }}">
+                                    <input type="hidden" name="commessa" value="{{ commessa }}">
+                                    <input type="hidden" name="disegno" value="{{ r.disegno }}">
+                                    <button type="submit" class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded-xl">➖ Preleva</button>
+                                </form>
+                                {% else %}✅ Completato{% endif %}
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p class="text-white">Nessuna commessa assegnata o disponibile.</p>
+    {% endif %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+<script>JsBarcode(".barcode").init();</script>
+{% endblock %}

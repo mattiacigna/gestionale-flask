@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1>🏠 Benvenuto {{ utente }}</h1>
+
+<div class="menu">
+    <a href="{{ url_for('visualizza_lavori') }}">📋 Visualizza Lavori</a>
+    <a href="{{ url_for('magazzino_commesse') }}">🏷️ Magazzino Commesse</a>
+    <a href="{{ url_for('stato_commesse') }}">📊 Stato Commesse</a>
+    <a href="{{ url_for('materiali_consumo') }}">🔧 Materiali di Consumo</a>
+    <a href="{{ url_for('genera_distinta') }}">📦 Genera Distinte</a>
+    <a href="{{ url_for('timbrature') }}">⏱️ Timbrature</a>
+    {% if utente == 'admin' %}
+        <a href="{{ url_for('gestione_utenti') }}">👤 Gestione Utenti</a>
+    {% endif %}
+    <a href="{{ url_for('logout') }}">🚪 Logout</a>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Stato Commesse{% endblock %}
+
+{% block content %}
+<div class="p-6">
+    <h1 class="text-3xl font-bold text-white mb-6">📊 Stato Commesse</h1>
+
+    {% if stato_commesse %}
+        {% for commessa, stato in stato_commesse.items() %}
+        <div class="mb-6 bg-gray-800 p-4 rounded-xl shadow-lg">
+            <h2 class="text-xl font-semibold text-white mb-2">Commessa: {{ commessa }}</h2>
+            <div class="w-full bg-gray-700 rounded-full h-6">
+                <div class="bg-green-500 h-6 rounded-full text-sm text-center text-black font-bold transition-all duration-300" style="width: {{ stato.percentuale }}%">
+                    {{ stato.percentuale }}%
+                </div>
+            </div>
+            <p class="text-sm text-gray-300 mt-2">Pezzi prelevati: {{ stato.prelevati }} / {{ stato.totale }}</p>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p class="text-white">Nessuna commessa disponibile.</p>
+    {% endif %}
+</div>
+{% endblock %}

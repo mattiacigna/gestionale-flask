@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% block title %}Materiali di Consumo{% endblock %}
+{% block content %}
+<div class="container">
+    <h1 class="centered-title">🧰 Materiali di Consumo</h1>
+
+    <!-- Magazzino Manuale (da JSON) -->
+    <div class="section-box">
+        <h2>📦 Magazzino Manuale</h2>
+        {% if utente == "admin" %}
+        <form method="POST" class="aggiungi-form">
+            <input type="text" name="nome" placeholder="Nome materiale" required>
+            <input type="number" name="quantita" placeholder="Quantità" min="1" required>
+            <button type="submit">➕ Aggiungi</button>
+        </form>
+        {% endif %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Quantità</th>
+                    {% if utente != "admin" %}<th>Preleva</th>{% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for mat in materiali %}
+                <tr class="{% if mat.quantita <= 3 %}alert-row{% endif %}">
+                    <td>{{ mat.nome }}</td>
+                    <td>{{ mat.quantita }}</td>
+                    {% if utente != "admin" %}
+                    <td>
+                        <form method="POST" action="{{ url_for('materiali_consumo') }}#manuale">
+                            <input type="hidden" name="indice" value="{{ loop.index0 }}">
+                            <button type="submit">➖ Preleva</button>
+                        </form>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- CONSUMABILI -->
+    <div id="consumabili" class="section-box">
+        <h2>🧪 Magazzino CONSUMABILI</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Articolo</th>
+                    <th>Quantità</th>
+                    {% if utente != "admin" %}<th>Preleva</th>{% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in consumabili %}
+                <tr class="{% if c.quantità <= 3 %}alert-row{% endif %}">
+                    <td>{{ c.articolo }}</td>
+                    <td>{{ c.quantità }}</td>
+                    {% if utente != "admin" %}
+                    <td>
+                        <form method="POST" action="{{ url_for('materiali_consumo') }}#consumabili">
+                            <input type="hidden" name="consumabili_index" value="{{ loop.index0 }}">
+                            <button type="submit">➖ Preleva</button>
+                        </form>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- BULLONERIA -->
+    <div id="bulloneria" class="section-box">
+        <h2>🔩 Magazzino Bulloneria</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Bullone</th>
+                    <th>Quantità</th>
+                    {% if utente != "admin" %}<th>Preleva</th>{% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for b in bulloneria %}
+                <tr class="{% if b.quantita <= 3 %}alert-row{% endif %}">
+                    <td>{{ b.nome }}</td>
+                    <td>{{ b.quantita }}</td>
+                    {% if utente != "admin" %}
+                    <td>
+                        <form method="POST" action="{{ url_for('materiali_consumo') }}#bulloneria">
+                            <input type="hidden" name="bullone_riga" value="{{ b.index_riga }}">
+                            <input type="hidden" name="bullone_col" value="{{ b.index_col }}">
+                            <button type="submit">➖ Preleva</button>
+                        </form>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .centered-title {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+    }
+
+    .section-box {
+        background: #1e1e1e;
+        padding: 20px;
+        margin-bottom: 30px;
+        border-radius: 20px;
+        box-shadow: 0 0 10px #444;
+    }
+
+    .aggiungi-form input,
+    .aggiungi-form button {
+        padding: 10px;
+        border-radius: 10px;
+        margin: 5px;
+        border: none;
+    }
+
+    .aggiungi-form button {
+        background-color: #3aa757;
+        color: white;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .aggiungi-form button:hover {
+        background-color: #2d8641;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
+
+    .table th,
+    .table td {
+        padding: 10px;
+        border-bottom: 1px solid #333;
+    }
+
+    .alert-row {
+        background-color: #7a1f1f !important;
+        color: white;
+        font-weight: bold;
+    }
+
+    button {
+        border-radius: 10px;
+        padding: 8px 12px;
+        background: #3a3a3a;
+        color: #fff;
+        border: none;
+        transition: background 0.3s ease;
+    }
+
+    button:hover {
+        background: #5c5c5c;
+    }
+</style>
+{% endblock %}
