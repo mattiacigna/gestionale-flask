@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Gestione Utenti{% endblock %}
+
+{% block content %}
+<h2>Gestione Utenti</h2>
+
+<table class="utenti-table">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Ruolo</th>
+            <th>Azioni</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for utente in utenti %}
+        <tr>
+            <td>{{ utente.username }}</td>
+            <td>{{ utente.ruolo }}</td>
+            <td>
+                <a href="{{ url_for('modifica_utente', username=utente.username) }}">✏️ Modifica</a>
+                <a href="{{ url_for('elimina_utente', username=utente.username) }}" onclick="return confirm('Sei sicuro?')">🗑️ Elimina</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3>Aggiungi Nuovo Utente</h3>
+<form method="post" action="{{ url_for('aggiungi_utente') }}">
+    <input type="text" name="username" placeholder="Username" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <select name="ruolo">
+        <option value="operatore">Operatore</option>
+        <option value="admin">Admin</option>
+    </select>
+    <button type="submit">➕ Aggiungi</button>
+</form>
+{% endblock %}

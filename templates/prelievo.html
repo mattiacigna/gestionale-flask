@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Prelievo Materiale{% endblock %}
+
+{% block content %}
+<h2>Prelievo Materiale</h2>
+
+{% if articoli %}
+<table class="prelievo-table">
+    <thead>
+        <tr>
+            <th>Codice</th>
+            <th>Descrizione</th>
+            <th>Disponibile</th>
+            <th>Preleva</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for art in articoli %}
+        <tr>
+            <td>{{ art.codice }}</td>
+            <td>{{ art.descrizione }}</td>
+            <td>{{ art.quantita }}</td>
+            <td>
+                <form method="post" action="{{ url_for('preleva', codice=art.codice) }}">
+                    <input type="number" name="quantita" min="1" max="{{ art.quantita }}" required>
+                    <button type="submit">Preleva</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Non ci sono materiali assegnati o disponibili per il prelievo.</p>
+{% endif %}
+{% endblock %}

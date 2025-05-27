@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>📋 Distinte Ordine Generate</h2>
+
+{% if file_generati %}
+    {% for file in file_generati %}
+        <div style="margin-bottom: 30px; border: 1px solid #444; padding: 15px; border-radius: 10px; background-color: #1a1a1a;">
+            <h3>{{ file.replace("Distinta_", "").replace(".xlsx", "").replace("_", " ") }}</h3>
+
+            {% set file_path = 'static/distinte_ordini/' + file %}
+            {% set df = pd.read_excel(file_path) %}
+            
+            <table style="width:100%; border-collapse: collapse; margin-top: 10px;">
+                <thead>
+                    <tr>
+                        {% for col in df.columns %}
+                            <th style="border: 1px solid #555; padding: 6px;">{{ col }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in df.itertuples(index=False) %}
+                        <tr>
+                            {% for cell in row %}
+                                <td style="border: 1px solid #333; padding: 6px;">{{ cell }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div style="margin-top: 10px;">
+                <a class="btn" href="{{ url_for('static', filename='distinte_ordini/' ~ file) }}" download>⬇️ Esporta Excel</a>
+                <a class="btn" href="{{ url_for('genera_pdf_distinta', nome_file=file) }}">🖨️ Esporta PDF</a>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>Nessuna distinta generata.</p>
+{% endif %}
+
+{% endblock %}

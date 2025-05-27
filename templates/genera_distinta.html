@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Distinte Ordini{% endblock %}
+
+{% block content %}
+<h1>📦 Distinte Ordini Generate</h1>
+
+{% if files %}
+    <p>Scarica singolarmente:</p>
+    <ul>
+        {% for file in files %}
+            <li><a href="{{ url_for('download_distinta', filename=file) }}">📄 {{ file }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <a class="zip-button" href="{{ url_for('download_distinte_zip', filename=zipfile) }}">
+        ⬇️ Scarica Tutto in ZIP
+    </a>
+{% else %}
+    <p>Nessun file generato.</p>
+{% endif %}
+
+<div class="back">
+    <a href="{{ url_for('home') }}">⬅️ Torna alla Home</a>
+</div>
+{% endblock %}
