@@ -17,7 +17,7 @@ utenti = {
     "admin": "240399",
     "emanuele": "180102",
     "marco": "1234",
-    "dario": "280102"
+    "dario": "280108"
 }
 
 prelievi_commesse = {}
