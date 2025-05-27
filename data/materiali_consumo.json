@@ -1,0 +1,17 @@
+[
+  {
+    "nome": "Guanti da lavoro",
+    "quantita": 12,
+    "soglia": 20
+  },
+  {
+    "nome": "Mascherine FFP2",
+    "quantita": 50,
+    "soglia": 30
+  },
+  {
+    "nome": "TCEI-15_M4",
+    "quantita": 18,
+    "soglia": 25
+  }
+]
